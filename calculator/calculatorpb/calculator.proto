@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package calculator;
+option go_package="calculatorpb";
+
+
+message SumRequest {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message SumResponse {
+    int32 result = 1;
+}
+
+message PrimeNumberDecompositionRequest {
+    int32 number = 1;
+}
+
+message PrimeNumberDecompositionResponse {
+    int32 PrimeNubmer = 1;
+}
+
+message AverageRequest {
+    int32 number = 1;
+}
+
+message AverageResponse {
+    double avg = 1; 
+}
+
+message MaxRequest {
+    int32 number = 1;
+}
+
+message MaxResponse {
+    int32 currentMax = 1;
+}
+
+message SquareRootRequest {
+    int32 number = 1;
+}
+
+message SquareRootResponse {
+    double number_root = 1;
+}
+
+service CalculatorService{
+    //Unary api
+    rpc Sum(SumRequest) returns (SumResponse) {};
+
+    //Server Streaming
+    rpc PrimeNumberDecomposition(PrimeNumberDecompositionRequest) returns (stream PrimeNumberDecompositionResponse) {}
+
+    //Client Streaming
+    rpc Average(stream AverageRequest) returns (AverageResponse) {};
+
+    //Bi-Di streamin
+    rpc Max(stream MaxRequest) returns (stream MaxResponse) {};
+
+    //Error handling
+    // rpc throws errros if number is a nagative
+    // The errro beenig send is of type INVALID_ARGUMENT
+    rpc SquareRoot(SquareRootRequest) returns (SquareRootResponse) {};
+}
